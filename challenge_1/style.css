@@ -3,20 +3,26 @@
 }
 
 .row div {
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
   background-color: blanchedalmond;
   color: blanchedalmond;
   border: 10px solid black;
   font-family: fantasy;
-  font-size: 150px;
+  font-size: 100px;
   text-align: center;
 }
 
 .row div:hover{
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
   background-color: orange;
   color: orange;
   border: 10px solid black;
+}
+
+#reset-button {
+  height: 50px;
+  width: 100px;
+  font-size: 30px;
 }
