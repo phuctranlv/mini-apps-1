@@ -1,0 +1,20 @@
+.row {
+  display: flex;
+}
+
+.row div {
+  width: 200px;
+  height: 200px;
+  background-color: blanchedalmond;
+  border: 10px solid black;
+  font-family: fantasy;
+  font-size: 150px;
+  text-align: center;
+}
+
+.row div:hover{
+  width: 200px;
+  height: 200px;
+  background-color: orange;
+  border: 10px solid black;
+}
