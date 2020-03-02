@@ -31,53 +31,90 @@ var generateValueTable = function() {
 var checkRow = function (array) {
   var xArray = array.filter(element => element === 'X');
   if (xArray.length === array.length) {
-    console.log('Win by row!');
     return true;
   }
   var oArray = array.filter(element => element === 'O');
   if (oArray.length === array.length) {
-    console.log('Win by row!');
     return true;
   }
   return false;
 }
 
+///////////////////////////////////////////////////////////////////////
+// function to check column to see if there's a winner
+var checkColumnsAndRows = function (array) {
+  var transportedColumns = [];
+  for (var i = 0; i < array.length; i++) {
+    transportedColumns.push([]);
+  }
+  for (var i = 0; i < array.length; i++) {
+    for (var j = 0; j < array[i].length; j++) {
+      transportedColumns[j].push(array[i][j]);
+    }
+  }
+  for (var k = 0; k < transportedColumns.length; k++) {
+    var columnResult = checkRow(transportedColumns[k]);
+    if (columnResult === true) {
+      return true;
+    }
+    return false;
+  }
+}
+
+///////////////////////////////////////////////////////////////////////
+// function to check if the game is over
 var isGameOver = function (array) {
   for (var i = 0; i < array.length; i++) {
     if (checkRow(array[i])) {
+      console.log('Win by row!');
       return true;
     }
+  }
+  if (checkColumnsAndRows(array)) {
+    console.log('Win by column!');
+    return true;
   }
   return false;
 }
 
 ///////////////////////////////////////////////////////////////////////
-// declare player variable and the event handler function
-var player = 0;
-
+// define event handler function
 var select = function (event) {
-  if (player % 2 === 0 && event.target.firstChild.nodeValue === '0') {
-    event.target.firstChild.nodeValue = 'X';
-    event.target.style.color = 'black';
-    var valueTable = generateValueTable();
-    var gameOver = isGameOver(valueTable);
-    console.log('gameOver:', gameOver);
-    player++;
-  }
-  else if (player % 2 === 1 && event.target.firstChild.nodeValue === '0') {
-    event.target.firstChild.nodeValue = 'O';
-    event.target.style.color = 'black';
-    var valueTable = generateValueTable();
-    var gameOver = isGameOver(valueTable);
-    console.log('gameOver:', gameOver);
-    player++;
+  if (!gameOver) {
+    if (player % 2 === 0 && event.target.firstChild.nodeValue === '0') {
+      var currentPlayer = 'X';
+      event.target.firstChild.nodeValue = 'X';
+      event.target.style.color = 'black';
+      var valueTable = generateValueTable();
+      gameOver = isGameOver(valueTable);
+      if (gameOver) {
+        console.log(`Game over! Player ${currentPlayer} won the game!`);
+      }
+      player++;
+    }
+    else if (player % 2 === 1 && event.target.firstChild.nodeValue === '0') {
+      var currentPlayer = 'O';
+      event.target.firstChild.nodeValue = 'O';
+      event.target.style.color = 'black';
+      var valueTable = generateValueTable();
+      gameOver = isGameOver(valueTable);
+      if (gameOver) {
+        console.log(`Game over! Player ${currentPlayer} won the game!`);
+      }
+      player++;
+    }
   }
 };
 
 ///////////////////////////////////////////////////////////////////////
-// assign the click event handler to all the elements in the tictactoe table
+// assign the click event handler to all the elements in the tictactoe table:
 for (var i = 0; i < elementTable.length; i++) {
   for (var j = 0; j < elementTable[i].length; j++) {
     elementTable[i][j].addEventListener('click', select);
   }
 }
+
+///////////////////////////////////////////////////////////////////////
+// set up game variables:
+var player = 0;
+var gameOver = false;
