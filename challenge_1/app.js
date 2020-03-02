@@ -89,6 +89,7 @@ var select = function (event) {
       gameOver = isGameOver(valueTable);
       if (gameOver) {
         console.log(`Game over! Player ${currentPlayer} won the game!`);
+        window.alert(`Game over! Player ${currentPlayer} won the game!`)
       }
       player++;
     }
@@ -100,6 +101,7 @@ var select = function (event) {
       gameOver = isGameOver(valueTable);
       if (gameOver) {
         console.log(`Game over! Player ${currentPlayer} won the game!`);
+        window.alert(`Game over! Player ${currentPlayer} won the game!`)
       }
       player++;
     }
@@ -118,3 +120,20 @@ for (var i = 0; i < elementTable.length; i++) {
 // set up game variables:
 var player = 0;
 var gameOver = false;
+
+///////////////////////////////////////////////////////////////////////
+// handle reset of the board:
+var reset = document.getElementById('reset-button');
+var resetBoard = function () {
+  var valueTable = [];
+  for (var i = 0; i < elementTable.length; i++) {
+    var row = [];
+    for (var j = 0; j < elementTable[i].length; j++) {
+      elementTable[i][j].firstChild.nodeValue = '0';
+      elementTable[i][j].style.color = elementTable[i][j].style.backgroundColor;
+    }
+    valueTable.push(row);
+  }
+  gameOver = false;
+}
+reset.addEventListener('click', resetBoard);
