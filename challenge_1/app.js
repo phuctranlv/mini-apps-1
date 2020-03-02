@@ -13,6 +13,10 @@ var b22 = document.getElementById('22');
 var elementTable = [[b00, b01, b02], [b10, b11, b12], [b20, b21, b22]];
 
 ///////////////////////////////////////////////////////////////////////
+// customize app message:
+var appMessage = document.getElementById('app-announcement');
+
+///////////////////////////////////////////////////////////////////////
 // function to generate a table to encapsulate the values of tictactoe elements:
 var generateValueTable = function() {
   var valueTable = [];
@@ -88,10 +92,12 @@ var select = function (event) {
       var valueTable = generateValueTable();
       gameOver = isGameOver(valueTable);
       if (gameOver) {
-        console.log(`Game over! Player ${currentPlayer} won the game!`);
+        appMessage.firstChild.nodeValue = `Game over! Player ${currentPlayer} won the game!`;
         window.alert(`Game over! Player ${currentPlayer} won the game!`)
+        return;
       }
       player++;
+      appMessage.firstChild.nodeValue = `It is player's O turn`;
     }
     else if (player % 2 === 1 && event.target.firstChild.nodeValue === '0') {
       var currentPlayer = 'O';
@@ -100,10 +106,12 @@ var select = function (event) {
       var valueTable = generateValueTable();
       gameOver = isGameOver(valueTable);
       if (gameOver) {
-        console.log(`Game over! Player ${currentPlayer} won the game!`);
-        window.alert(`Game over! Player ${currentPlayer} won the game!`)
+        appMessage.firstChild.nodeValue= `Game over! Player ${currentPlayer} won the game!`;
+        window.alert(`Game over! Player ${currentPlayer} won the game!`);
+        return;
       }
       player++;
+      appMessage.firstChild.nodeValue = `It is player's X turn`;
     }
   }
 };
