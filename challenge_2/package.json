@@ -1,0 +1,12 @@
+{
+  "name": "csv_generator",
+  "version": "1.0.0",
+  "description": "Generate csv format data from json format data",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Phuc Tran",
+  "license": "MIT"
+}
