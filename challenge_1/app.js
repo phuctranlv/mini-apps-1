@@ -13,8 +13,29 @@ var b22 = document.getElementById('22');
 var elementTable = [[b00, b01, b02], [b10, b11, b12], [b20, b21, b22]];
 
 ///////////////////////////////////////////////////////////////////////
-// customize app message:
+// set up game variables:
+var player = 'X';
+var playerXScore = 0;
+var playerOScore = 0;
+var gameOver = false;
 var appMessage = document.getElementById('app-announcement');
+var playerXScoreDisplay = document.getElementById('player-X-score');
+var playerOScoreDisplay = document.getElementById('player-O-score');
+
+///////////////////////////////////////////////////////////////////////
+// set up names and event handler to set up names:
+var playerXName = document.getElementById('player-X-name');
+var playerOName = document.getElementById('player-O-name');
+var playerXNameInput = document.getElementById('player-X-name-input');
+var playerONameInput = document.getElementById('player-O-name-input');
+var onPlayerXEntry = function (event) {
+  playerXName.firstChild.nodeValue = event.target.value;
+}
+var onPlayerOEntry = function (event) {
+  playerOName.firstChild.nodeValue = event.target.value;
+}
+playerXNameInput.onchange = onPlayerXEntry;
+playerONameInput.onchange = onPlayerOEntry;
 
 ///////////////////////////////////////////////////////////////////////
 // function to generate a table to encapsulate the values of tictactoe elements:
@@ -140,33 +161,36 @@ var isGameOver = function (array) {
 // define event handler function
 var select = function (event) {
   if (!gameOver) {
-    if (player % 2 === 0 && event.target.firstChild.nodeValue === '0') {
-      var currentPlayer = 'X';
+    if (player === 'X' && event.target.firstChild.nodeValue === '0') {
       event.target.firstChild.nodeValue = 'X';
       event.target.style.color = 'black';
       var valueTable = generateValueTable();
       gameOver = isGameOver(valueTable);
       if (gameOver) {
-        appMessage.firstChild.nodeValue = `Game over! Player ${currentPlayer} won the game!`;
-        window.alert(`Game over! Player ${currentPlayer} won the game!`)
+        appMessage.firstChild.nodeValue = `Game over! Player ${player} won the game!`;
+        playerXScore++;
+        playerXScoreDisplay.firstChild.nodeValue = `${playerXScore}`;
+        window.alert(`Game over! Player ${player} won the game!`)
         return;
       }
-      player++;
-      appMessage.firstChild.nodeValue = `It is player's O turn`;
+      player = 'O';
+      appMessage.firstChild.nodeValue = `It is player ${player}'s turn`;
     }
-    else if (player % 2 === 1 && event.target.firstChild.nodeValue === '0') {
-      var currentPlayer = 'O';
+    else if (player === 'O' && event.target.firstChild.nodeValue === '0') {
+
       event.target.firstChild.nodeValue = 'O';
       event.target.style.color = 'black';
       var valueTable = generateValueTable();
       gameOver = isGameOver(valueTable);
       if (gameOver) {
-        appMessage.firstChild.nodeValue= `Game over! Player ${currentPlayer} won the game!`;
-        window.alert(`Game over! Player ${currentPlayer} won the game!`);
+        appMessage.firstChild.nodeValue= `Game over! Player ${player} won the game!`;
+        playerOScore++;
+        playerOScoreDisplay.firstChild.nodeValue = `${playerOScore}`;
+        window.alert(`Game over! Player ${player} won the game!`);
         return;
       }
-      player++;
-      appMessage.firstChild.nodeValue = `It is player's X turn`;
+      player = 'X';
+      appMessage.firstChild.nodeValue = `It is player ${player}'s turn`;
     }
   }
 };
@@ -178,11 +202,6 @@ for (var i = 0; i < elementTable.length; i++) {
     elementTable[i][j].addEventListener('click', select);
   }
 }
-
-///////////////////////////////////////////////////////////////////////
-// set up game variables:
-var player = 0;
-var gameOver = false;
 
 ///////////////////////////////////////////////////////////////////////
 // handle reset of the board:
@@ -198,6 +217,6 @@ var resetBoard = function () {
     valueTable.push(row);
   }
   gameOver = false;
-  appMessage.firstChild.nodeValue= `Welcome! It is player X's turn`;
+  appMessage.firstChild.nodeValue= `Welcome! It is player ${player}'s turn`;
 }
 reset.addEventListener('click', resetBoard);
