@@ -45,8 +45,8 @@ var checkRow = function (array) {
 }
 
 ///////////////////////////////////////////////////////////////////////
-// function to check column to see if there's a winner
-var checkColumnsAndRows = function (array) {
+// function to transport columns to rows
+var transport = function (array) {
   var transportedColumns = [];
   for (var i = 0; i < array.length; i++) {
     transportedColumns.push([]);
@@ -56,6 +56,13 @@ var checkColumnsAndRows = function (array) {
       transportedColumns[j].push(array[i][j]);
     }
   }
+  return transportedColumns;
+}
+
+///////////////////////////////////////////////////////////////////////
+// function to check column to see if there's a winner
+var checkColumns = function (array) {
+  var transportedColumns = transport(array);
   for (var k = 0; k < transportedColumns.length; k++) {
     var columnResult = checkRow(transportedColumns[k]);
     if (columnResult === true) {
@@ -63,6 +70,46 @@ var checkColumnsAndRows = function (array) {
     }
     return false;
   }
+}
+
+///////////////////////////////////////////////////////////////////////
+// function to check diagnal:
+var checkMajorDiagnal = function (array) {
+  var majorDiagnal = [];
+  for (var i = 0; i < array.length; i++) {
+    for (var j = 0; j < array[i].length; j++) {
+      if (i === j & array[i][j] === 'X') {
+        majorDiagnal.push('X');
+      }
+      if (i === j & array[i][j] === 'O') {
+        majorDiagnal.push('O');
+      }
+    }
+  }
+
+  var majorDiagnalO = majorDiagnal.filter(element => element === 'O');
+  if (majorDiagnalO.length === array.length) {
+    return true;
+  }
+
+  var majorDiagnalX = majorDiagnal.filter(element => element === 'X');
+  if (majorDiagnalX.length === array.length) {
+    return true;
+  }
+  return false;
+}
+
+///////////////////////////////////////////////////////////////////////
+// function to check diagnal:
+var checkMinorDiagnal = function (array) {
+  var reversedArray = [];
+  for (var i = 0; i < array.length; i++) {
+    reversedArray.push(array[i].reverse());
+  }
+  if (checkMajorDiagnal(reversedArray)) {
+    return true;
+  }
+  return false;
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -74,8 +121,16 @@ var isGameOver = function (array) {
       return true;
     }
   }
-  if (checkColumnsAndRows(array)) {
+  if (checkColumns(array)) {
     console.log('Win by column!');
+    return true;
+  }
+  if (checkMajorDiagnal(array)) {
+    console.log('Win by major diagnal!');
+    return true;
+  }
+  if (checkMinorDiagnal(array)) {
+    console.log('Win by minor diagnal!');
     return true;
   }
   return false;
