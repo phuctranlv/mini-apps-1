@@ -1,50 +1,51 @@
-///////////////////////////////////////////////////////////////////////
-// declare variables for tictactoe elements:
-var b00 = document.getElementById('00');
-var b01 = document.getElementById('01');
-var b02 = document.getElementById('02');
-var b10 = document.getElementById('10');
-var b11 = document.getElementById('11');
-var b12 = document.getElementById('12');
-var b20 = document.getElementById('20');
-var b21 = document.getElementById('21');
-var b22 = document.getElementById('22');
+var viewObject = {
+  b00: document.getElementById('00'),
+  b01: document.getElementById('01'),
+  b02: document.getElementById('02'),
+  b10: document.getElementById('10'),
+  b11: document.getElementById('11'),
+  b12: document.getElementById('12'),
+  b20: document.getElementById('20'),
+  b21: document.getElementById('21'),
+  b22: document.getElementById('22'),
+  appMessage: document.getElementById('app-announcement'),
+  playerXScoreDisplay: document.getElementById('player-X-score'),
+  playerOScoreDisplay: document.getElementById('player-O-score'),
+  playerXName: document.getElementById('player-X-name'),
+  playerOName: document.getElementById('player-O-name'),
+  playerXNameInput: document.getElementById('player-X-name-input'),
+  playerONameInput: document.getElementById('player-O-name-input'),
+  reset: document.getElementById('reset-button')
 
-var elementTable = [[b00, b01, b02], [b10, b11, b12], [b20, b21, b22]];
+}
+
+var stateObject = {
+  elementTable: [[viewObject.b00, viewObject.b01, viewObject.b02], [viewObject.b10, viewObject.b11, viewObject.b12], [viewObject.b20, viewObject.b21, viewObject.b22]],
+  player: 'X',
+  gameOver: false,
+  playerXScore: 0,
+  playerOScore: 0,
+}
 
 ///////////////////////////////////////////////////////////////////////
-// set up game variables:
-var player = 'X';
-var playerXScore = 0;
-var playerOScore = 0;
-var gameOver = false;
-var appMessage = document.getElementById('app-announcement');
-var playerXScoreDisplay = document.getElementById('player-X-score');
-var playerOScoreDisplay = document.getElementById('player-O-score');
 
-///////////////////////////////////////////////////////////////////////
-// set up names and event handler to set up names:
-var playerXName = document.getElementById('player-X-name');
-var playerOName = document.getElementById('player-O-name');
-var playerXNameInput = document.getElementById('player-X-name-input');
-var playerONameInput = document.getElementById('player-O-name-input');
 var onPlayerXEntry = function (event) {
-  playerXName.firstChild.nodeValue = event.target.value;
+  stateObject.playerXName.firstChild.nodeValue = event.target.value;
 }
 var onPlayerOEntry = function (event) {
-  playerOName.firstChild.nodeValue = event.target.value;
+  viewObject.playerOName.firstChild.nodeValue = event.target.value;
 }
-playerXNameInput.onchange = onPlayerXEntry;
-playerONameInput.onchange = onPlayerOEntry;
+viewObject.playerXNameInput.onchange = onPlayerXEntry;
+viewObject.playerONameInput.onchange = onPlayerOEntry;
 
 ///////////////////////////////////////////////////////////////////////
 // function to generate a table to encapsulate the values of tictactoe elements:
 var generateValueTable = function() {
   var valueTable = [];
-  for (var i = 0; i < elementTable.length; i++) {
+  for (var i = 0; i < stateObject.elementTable.length; i++) {
     var row = [];
-    for (var j = 0; j < elementTable[i].length; j++) {
-      row.push(elementTable[i][j].firstChild.nodeValue);
+    for (var j = 0; j < stateObject.elementTable[i].length; j++) {
+      row.push(stateObject.elementTable[i][j].firstChild.nodeValue);
     }
     valueTable.push(row);
   }
@@ -160,63 +161,63 @@ var isGameOver = function (array) {
 ///////////////////////////////////////////////////////////////////////
 // define event handler function
 var select = function (event) {
-  if (!gameOver) {
-    if (player === 'X' && event.target.firstChild.nodeValue === '0') {
+  if (!stateObject.gameOver) {
+    if (stateObject.player === 'X' && event.target.firstChild.nodeValue === '0') {
       event.target.firstChild.nodeValue = 'X';
       event.target.style.color = 'black';
       var valueTable = generateValueTable();
-      gameOver = isGameOver(valueTable);
-      if (gameOver) {
-        appMessage.firstChild.nodeValue = `Game over! Player ${player} won the game!`;
-        playerXScore++;
-        playerXScoreDisplay.firstChild.nodeValue = `${playerXScore}`;
-        window.alert(`Game over! Player ${player} won the game!`)
+      stateObject.gameOver = isGameOver(valueTable);
+      if (stateObject.gameOver) {
+        viewObject.appMessage.firstChild.nodeValue = `Game over! Player ${stateObject.player} won the game!`;
+        stateObject.playerXScore++;
+        viewObject.playerXScoreDisplay.firstChild.nodeValue = `${stateObject.playerXScore}`;
+        window.alert(`Game over! Player ${stateObject.player} won the game!`)
         return;
       }
-      player = 'O';
-      appMessage.firstChild.nodeValue = `It is player ${player}'s turn`;
+      stateObject.player = 'O';
+      viewObject.appMessage.firstChild.nodeValue = `It is player ${stateObject.player}'s turn`;
     }
-    else if (player === 'O' && event.target.firstChild.nodeValue === '0') {
+    else if (stateObject.player === 'O' && event.target.firstChild.nodeValue === '0') {
 
       event.target.firstChild.nodeValue = 'O';
       event.target.style.color = 'black';
       var valueTable = generateValueTable();
-      gameOver = isGameOver(valueTable);
-      if (gameOver) {
-        appMessage.firstChild.nodeValue= `Game over! Player ${player} won the game!`;
-        playerOScore++;
-        playerOScoreDisplay.firstChild.nodeValue = `${playerOScore}`;
-        window.alert(`Game over! Player ${player} won the game!`);
+      stateObject.gameOver = isGameOver(valueTable);
+      if (stateObject.gameOver) {
+        viewObject.appMessage.firstChild.nodeValue= `Game over! Player ${stateObject.player} won the game!`;
+        stateObject.playerOScore++;
+        viewObject.playerOScoreDisplay.firstChild.nodeValue = `${stateObject.playerOScore}`;
+        window.alert(`Game over! Player ${stateObject.player} won the game!`);
         return;
       }
-      player = 'X';
-      appMessage.firstChild.nodeValue = `It is player ${player}'s turn`;
+      stateObject.player = 'X';
+      viewObject.appMessage.firstChild.nodeValue = `It is player ${stateObject.player}'s turn`;
     }
   }
 };
 
 ///////////////////////////////////////////////////////////////////////
 // assign the click event handler to all the elements in the tictactoe table:
-for (var i = 0; i < elementTable.length; i++) {
-  for (var j = 0; j < elementTable[i].length; j++) {
-    elementTable[i][j].addEventListener('click', select);
+for (var i = 0; i < stateObject.elementTable.length; i++) {
+  for (var j = 0; j < stateObject.elementTable[i].length; j++) {
+    stateObject.elementTable[i][j].addEventListener('click', select);
   }
 }
 
 ///////////////////////////////////////////////////////////////////////
 // handle reset of the board:
-var reset = document.getElementById('reset-button');
+// var reset = document.getElementById('reset-button');
 var resetBoard = function () {
   var valueTable = [];
-  for (var i = 0; i < elementTable.length; i++) {
+  for (var i = 0; i < stateObject.elementTable.length; i++) {
     var row = [];
-    for (var j = 0; j < elementTable[i].length; j++) {
-      elementTable[i][j].firstChild.nodeValue = '0';
-      elementTable[i][j].style.color = elementTable[i][j].style.backgroundColor;
+    for (var j = 0; j < stateObject.elementTable[i].length; j++) {
+      stateObject.elementTable[i][j].firstChild.nodeValue = '0';
+      stateObject.elementTable[i][j].style.color = stateObject.elementTable[i][j].style.backgroundColor;
     }
     valueTable.push(row);
   }
-  gameOver = false;
-  appMessage.firstChild.nodeValue= `Welcome! It is player ${player}'s turn`;
+  stateObject.gameOver = false;
+  viewObject.appMessage.firstChild.nodeValue= `Welcome! It is player ${stateObject.player}'s turn`;
 }
-reset.addEventListener('click', resetBoard);
+viewObject.reset.addEventListener('click', resetBoard);
