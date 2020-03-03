@@ -16,7 +16,6 @@ var viewObject = {
   playerXNameInput: document.getElementById('player-X-name-input'),
   playerONameInput: document.getElementById('player-O-name-input'),
   reset: document.getElementById('reset-button')
-
 }
 
 var stateObject = {
@@ -27,19 +26,14 @@ var stateObject = {
   playerOScore: 0,
 }
 
-///////////////////////////////////////////////////////////////////////
-
 var onPlayerXEntry = function (event) {
-  stateObject.playerXName.firstChild.nodeValue = event.target.value;
+  viewObject.playerXName.firstChild.nodeValue = event.target.value;
 }
+
 var onPlayerOEntry = function (event) {
   viewObject.playerOName.firstChild.nodeValue = event.target.value;
 }
-viewObject.playerXNameInput.onchange = onPlayerXEntry;
-viewObject.playerONameInput.onchange = onPlayerOEntry;
 
-///////////////////////////////////////////////////////////////////////
-// function to generate a table to encapsulate the values of tictactoe elements:
 var generateValueTable = function() {
   var valueTable = [];
   for (var i = 0; i < stateObject.elementTable.length; i++) {
@@ -52,8 +46,6 @@ var generateValueTable = function() {
   return valueTable;
 }
 
-///////////////////////////////////////////////////////////////////////
-// function to check the row to see if there's a winner
 var checkRow = function (array) {
   var xArray = array.filter(element => element === 'X');
   if (xArray.length === array.length) {
@@ -66,8 +58,6 @@ var checkRow = function (array) {
   return false;
 }
 
-///////////////////////////////////////////////////////////////////////
-// function to transport columns to rows
 var transport = function (array) {
   var transportedColumns = [];
   for (var i = 0; i < array.length; i++) {
@@ -81,8 +71,6 @@ var transport = function (array) {
   return transportedColumns;
 }
 
-///////////////////////////////////////////////////////////////////////
-// function to check column to see if there's a winner
 var checkColumns = function (array) {
   var transportedColumns = transport(array);
   for (var k = 0; k < transportedColumns.length; k++) {
@@ -94,8 +82,6 @@ var checkColumns = function (array) {
   return false;
 }
 
-///////////////////////////////////////////////////////////////////////
-// function to check diagnal:
 var checkMajorDiagnal = function (array) {
   var majorDiagnal = [];
   for (var i = 0; i < array.length; i++) {
@@ -121,8 +107,6 @@ var checkMajorDiagnal = function (array) {
   return false;
 }
 
-///////////////////////////////////////////////////////////////////////
-// function to check diagnal:
 var checkMinorDiagnal = function (array) {
   var reversedArray = [];
   for (var i = 0; i < array.length; i++) {
@@ -134,8 +118,6 @@ var checkMinorDiagnal = function (array) {
   return false;
 }
 
-///////////////////////////////////////////////////////////////////////
-// function to check if the game is over
 var isGameOver = function (array) {
   for (var i = 0; i < array.length; i++) {
     if (checkRow(array[i])) {
@@ -158,8 +140,6 @@ var isGameOver = function (array) {
   return false;
 }
 
-///////////////////////////////////////////////////////////////////////
-// define event handler function
 var select = function (event) {
   if (!stateObject.gameOver) {
     if (stateObject.player === 'X' && event.target.firstChild.nodeValue === '0') {
@@ -196,17 +176,6 @@ var select = function (event) {
   }
 };
 
-///////////////////////////////////////////////////////////////////////
-// assign the click event handler to all the elements in the tictactoe table:
-for (var i = 0; i < stateObject.elementTable.length; i++) {
-  for (var j = 0; j < stateObject.elementTable[i].length; j++) {
-    stateObject.elementTable[i][j].addEventListener('click', select);
-  }
-}
-
-///////////////////////////////////////////////////////////////////////
-// handle reset of the board:
-// var reset = document.getElementById('reset-button');
 var resetBoard = function () {
   var valueTable = [];
   for (var i = 0; i < stateObject.elementTable.length; i++) {
@@ -220,4 +189,12 @@ var resetBoard = function () {
   stateObject.gameOver = false;
   viewObject.appMessage.firstChild.nodeValue= `Welcome! It is player ${stateObject.player}'s turn`;
 }
+
+for (var i = 0; i < stateObject.elementTable.length; i++) {
+  for (var j = 0; j < stateObject.elementTable[i].length; j++) {
+    stateObject.elementTable[i][j].addEventListener('click', select);
+  }
+}
+viewObject.playerXNameInput.onchange = onPlayerXEntry;
+viewObject.playerONameInput.onchange = onPlayerOEntry;
 viewObject.reset.addEventListener('click', resetBoard);
