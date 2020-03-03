@@ -68,8 +68,8 @@ var checkColumns = function (array) {
     if (columnResult === true) {
       return true;
     }
-    return false;
   }
+  return false;
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -198,5 +198,6 @@ var resetBoard = function () {
     valueTable.push(row);
   }
   gameOver = false;
+  appMessage.firstChild.nodeValue= `Welcome! It is player X's turn`;
 }
 reset.addEventListener('click', resetBoard);
