@@ -5,10 +5,14 @@
     <meta name="author" value="Phuc Tran">
     <title>Convert JSON to CSV</title>
   </head>
-    <form id="JSON-data-form" action="/" method="POST">
-      <label name="data">Please provide the JSON formatted data here:</label>
-      <input name="data" id="data" type="text" placeholder="Input here"></input>
-      <button type="submit" >Submit</button>
+    <form id="JSON-data-form">
+      <div>
+        <label for="data">Please provide the JSON formatted data below:</label>
+      </div>
+      <div>
+        <textarea name="data" id="data" rows="10" cols="50" placeholder="Input here"></textarea>
+      </div>
+      <button type="submit" id="data-submit-button">Submit</button>
     </form>
   <body>
     <script src="./app.js"></script>
